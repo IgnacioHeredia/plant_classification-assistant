@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- Basic Page Needs
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<meta charset="utf-8">
+	<title>Deep Learning @ IFCA</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- FONT
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+	<!-- CSS
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link type= "text/css" rel="stylesheet" href="./static/css/normalize.css">
+    <link type= "text/css" rel="stylesheet" href="./static/css/skeleton.css">
+    <link type= "text/css" rel="stylesheet" href="./static/css/general.css">
+    <link type= "text/css" rel="stylesheet" href="./static/css/custom.css">
+
+	<!-- Scripts
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+    <script>
+    var predictions = {{ predictions|tojson }};
+    var text = "";
+    var i;
+    for (i = 0; i < predictions.pred_lab.length; i++) {
+        text += '<p><input type="radio" name="prediction_number" value="' + i +'"'
+        if (i ==0) { //set number 1 option to default
+            text += ' checked'
+        }
+        text += '> <b>' + (i+1) + '.</b> &nbsp; ' + predictions.pred_lab[i]  + ' &nbsp; | &nbsp; <i>' + Math.round(predictions.pred_prob[i] * 100) + '</i> %';
+        text += '<br>';
+        text += '<a target="_blank" href="' + predictions.google_images_link[i] + '">Images</a> | ';
+        text += '<a target="_blank" href="' + predictions.wikipedia_link[i] + '">Wikipedia</a>';
+        text += '</p>';
+    }
+
+    </script>
+
+	<!-- Favicon
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<link rel="icon" type="image/png" href="./static/images/favicon.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+      <section class="header">
+          <h1 class="center"  style="margin-top: 25%">Biodiversity Assistant</h1>
+      </section>
+      
+      <div class="docs-section">
+          <div class="row">
+            <div class="eight columns offset-by-two column">
+                
+                <!-- Error messages. -->
+                {% with flashes = get_flashed_messages() %}
+                    {% if flashes %}
+                      {% for message in flashes %}
+                        <div class="flashesdiv">
+                        {{ message }}
+                        </div><br><br>
+                      {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <h5>Observation info</h5>
+                
+                <em> Community ID </em>
+                <p id="natusferaID"></p> 
+	            <script> document.getElementById("natusferaID").innerHTML = predictions.community_id_name;</script>
+
+                <em> Community observation </em>
+                <p><a id=natusfera_obs>link</a></p>
+                <script> document.getElementById("natusfera_obs").setAttribute("href", predictions.url_link);</script>
+
+
+                <div class="center_tag">
+                <img id=img_link width=500>
+                <script>document.getElementById("img_link").setAttribute("src", predictions.im_list[0]);</script>
+                </div>
+                <br><br>
+ 
+                <form action="decision" method="POST">
+                    <h5>Predictions</h5>
+                    <p id="show_predictions"></p>
+                    <script>document.getElementById("show_predictions").innerHTML = text;</script>
+                    <br>
+
+                    <div class="row">
+                        <div class="four columns offset-by-two column">
+                            <div class="center">
+                            <button class="button button-primary discard-button" name="button" type="submit" value="discard">Discard</button>
+                            </div>
+                        </div>
+
+                        <div class="four columns offset-by-two column">
+                            <div class="center">
+                            <button class="button button-primary accept-button" name="button" type="submit" value="submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        
+            </div>  
+        </div>
+      </div>           
+
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

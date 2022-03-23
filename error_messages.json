@@ -1,0 +1,10 @@
+{	"Invalid credentials": "Please check your community's username/password.",
+ 	"Incomplete form": "One or more fields in the form are missing.",
+	"Nonexistent ID": "The ID you have selected does not exists in the community database. Please select another specie or discard the observation.",
+	"Invalid date format": "Your date should be in a yyyy-mm-dd format.",
+	"Invalid date value": "One of your input dates does not exist.",
+	"Invalid time interval": "Your end date should be bigger than your starting date.",
+	"Invalid end date": "Your end date cannot be bigger than today's date.",
+	"Portal error": "The portal from the selected community is giving errors.",
+	"Classification API error": "Our classification API does not seem to be working. Perhaps it is down or the url has to be updated."
+}

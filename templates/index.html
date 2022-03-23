@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- Basic Page Needs
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<meta charset="utf-8">
+	<title>Deep Learning @ IFCA</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- FONT
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+	<!-- CSS
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link type= "text/css" rel="stylesheet" href="./static/css/normalize.css">
+    <link type= "text/css" rel="stylesheet" href="./static/css/skeleton.css">
+    <link type= "text/css" rel="stylesheet" href="./static/css/general.css">
+    <link type= "text/css" rel="stylesheet" href="./static/css/custom.css">
+
+	<!-- Scripts
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+	<!-- Favicon
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<link rel="icon" type="image/png" href="./static/images/favicon.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+      <section class="header">
+          <h1 class="center"  style="margin-top: 25%">Biodiversity Assistant</h1>
+      </section>
+      
+  
+      <div class="docs-section" id="intro">
+          <div class="row">
+            <div class="eight columns offset-by-two column">
+                <p>This webpage aims to assist experts at accelerating the identification of species in the <a href="https://inaturalist.org/">iNaturalist</a> community, or its Spanish fork <a href="http://natusfera.gbif.es">Natusfera</a>, by fostering the power of Deep Neural Networks with the fine grained knowledge of biodiversity experts.</p>
+                
+                <p>It suggests the user possible identifications for new plant observations in their community, enabling the user to freely upload an identification among the suggested species.</p>
+                
+                <!-- Error messages. -->
+                {% with flashes = get_flashed_messages() %}
+                    {% if flashes %}
+                      {% for message in flashes %}
+                        <div class="flashesdiv">
+                        {{ message }}
+                        </div><br><br>
+                      {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <form action="presubmit" method="POST" enctype="multipart/form-data">
+                    
+                    <h5>Credentials</h5>
+                    
+                    <em>Community</em><br>
+                    <select name="community">
+                      <option value="natusfera">Natusfera</option>
+                      <option value="inaturalist">iNaturalist</option>
+                    </select>
+                    
+                    <div class="row">
+                        <div class="four columns">
+                            <input type="text" name="username" placeholder="username"/>
+                        </div>
+                        <div class="four columns">
+                            <input type="password" name="password" placeholder="password"/>
+                        </div>
+                    </div>
+                    <br>
+
+                    <h5>Time interval</h5>
+                    <div class="row">
+                        <div class="four columns">
+                            <em>Start Date</em>
+                            <input type="date" name="start_date" placeholder="yyyy-mm-dd" />
+                        </div>
+                        <div class="four columns">
+                            <em>End Date</em>
+                            <input type="date" name="end_date" placeholder="yyyy-mm-dd" />
+                        </div>
+                    </div>
+                    <div class="comments">For time ranges too long, the total number of observations will be cropped to 50 to avoid server overload. To classify more observations, just resubmit the form with the same time interval or  break your time interval into smaller ranges.</div>
+                    <br>
+
+                    <h5>Extra Parameters</h5>
+                    <em>Prediction cutoff</em><br>
+                    <input type="number" value="0.5" name="cutoff" step="0.1" min="0" max="1"/>
+                    <div class="comments">The higher the cutoff the more confident the prediction is. Setting a high cutoff will show to you only the observations where the neural network is very confident of its prediction.</div>
+
+                    <br><br><br>
+                    <div class="center" id="standard-button">
+                    <button name="standard-button" type="submit">Submit form</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+          </div>
+      </div>
+      
+      
+            
+      <br>
+		<div class="footer">
+		  <img src="./static/images/logoIFCA.png" width="250"><br>
+		  Ignacio Heredia | October 2017 <br>
+		  iheredia@ifca.unican.es<br>
+		  CSS by Dave Gamache
+		</div>
+
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
